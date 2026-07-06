@@ -1,7 +1,9 @@
 import subprocess
 import json
+import os
 import re
 import shutil
+import stat
 from pathlib import Path
 from typing import List
 
@@ -189,7 +191,7 @@ def snapshot_sandbox(dir: str = "sandbox", backup_dir: str = LAST_GOOD_DIR) -> b
 
     dest = Path(backup_dir)
     if dest.exists():
-        shutil.rmtree(dest, onerror=lambda f, p, e: (Path(p).chmod(0o700), f(p)))
+        shutil.rmtree(dest, onerror=lambda f, p, e: (os.chmod(p, stat.S_IWRITE), f(p)))
 
     shutil.copytree(
         src, dest,
@@ -209,7 +211,7 @@ def restore_last_good(dir: str = "sandbox", backup_dir: str = LAST_GOOD_DIR) -> 
 
     dest = Path(dir)
     if dest.exists():
-        shutil.rmtree(dest, onerror=lambda f, p, e: (Path(p).chmod(0o700), f(p)))
+        shutil.rmtree(dest, onerror=lambda f, p, e: (os.chmod(p, stat.S_IWRITE), f(p)))
 
     shutil.copytree(backup, dest)
     return True

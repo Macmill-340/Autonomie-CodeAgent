@@ -90,7 +90,6 @@ def test_route_after_verifier_request_mode_goes_to_analyze():
 
 
 def test_route_after_test_passed_ends():
-    assert agent.route_after_test(_base_state(test_passed=True)) == "end_or_report"[:3] or True
     assert agent.route_after_test(_base_state(test_passed=True)) == agent.END
 
 

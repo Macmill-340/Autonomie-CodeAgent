@@ -65,9 +65,6 @@ class _LazyLLM:
             base = base.bind(response_mime_type="application/json")
         return base.invoke(*args, **kwargs)
 
-    def bind(self, *args, **kwargs):
-        return _get_llm().bind(*args, **kwargs)
-
 
 llm = _LazyLLM(json_mode=False)
 json_llm = _LazyLLM(json_mode=True)
